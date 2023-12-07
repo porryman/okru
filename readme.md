@@ -1,0 +1,1 @@
+Plugin para ok.ru
