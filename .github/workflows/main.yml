@@ -11,10 +11,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: dummy-data
+          ref: okru
 
       - name: Generate Directory Listings
-        uses: porryman/github-pages-directory-listing@main
+        uses: okru/github-pages-directory-listing@main
         with:
           FOLDER: data
 
