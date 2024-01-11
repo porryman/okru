@@ -11,7 +11,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: okru
+          ref: main
 
       - name: Generate Directory Listings
         uses: porryman/okru@main
