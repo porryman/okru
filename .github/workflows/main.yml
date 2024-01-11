@@ -14,7 +14,7 @@ jobs:
         uses: Eun/http-server-action@v1
         with:
           directory: ${{ github.workspace }}
-          port: 80
+          port: 8080
           no-cache: false
           index-files: |
             ["index.html", "index.htm"]
