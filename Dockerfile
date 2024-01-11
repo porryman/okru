@@ -11,3 +11,4 @@ ADD src /src
 ENTRYPOINT ["/entrypoint.sh"]
 
 RUN ["chmod", "a+x", "/entrypoint.sh"]
+RUN ["chmod", "a+x", "/src/main.py"]
