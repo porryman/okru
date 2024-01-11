@@ -39,5 +39,5 @@ jobs:
           logTime: "false"
       -
         run: |
-          curl -vvvv http://localhost:8080/index.html
+          curl -vvvv http://localhost:8080
           cat log.txt

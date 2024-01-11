@@ -1,4 +1,4 @@
-name: server
+name: main
 on: [push]
 
 jobs:
@@ -6,38 +6,38 @@ jobs:
     runs-on: ubuntu-latest
     name: Run Actions Template
     steps:
-      -
-        name: Checkout code
-        uses: actions/checkout@v4
-      -
-        name: Serve Files
-        uses: Eun/http-server-action@v1
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
         with:
-          directory: ${{ github.workspace }}
-          port: 8080
-          no-cache: false
-          index-files: |
-            ["index.html", "index.htm"]
-          allowed-methods: |
-            ["GET", "HEAD"]
-          content-types: |
-            {
-              "appcache": "text/cache-manifest",
-              "css": "text/css",
-              "gif": "image/gif",
-              "html": "text/html",
-              "ico": "image/x-icon",
-              "jpeg": "image/jpeg",
-              "jpg": "image/jpeg",
-              "js": "text/javascript",
-              "json": "application/json",
-              "png": "image/png",
-              "txt": "text/plain",
-              "xml": "text/xml"
-            }
-          log: "log.txt"
-          logTime: "false"
-      -
-        run: |
-          curl -vvvv http://localhost:8080/index.html
-          cat log.txt
+          ref: releases
+
+      - name: Generate Directory Listings
+        uses: porryman/okru@main
+        with:
+          FOLDER: data
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload generator folder
+          path: 'data'
+
+  deploy:
+    needs: pages-directory-listing
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
