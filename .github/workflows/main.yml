@@ -14,7 +14,7 @@ jobs:
           ref: okru
 
       - name: Generate Directory Listings
-        uses: okru/github-pages-directory-listing@main
+        uses: porryman/okru@main
         with:
           FOLDER: data
 
