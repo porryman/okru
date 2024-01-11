@@ -9,3 +9,5 @@ RUN chmod +x /entrypoint.sh
 ADD src /src
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+RUN ["chmod", "a+x", "/entrypoint.sh"]
