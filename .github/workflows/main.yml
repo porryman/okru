@@ -6,24 +6,43 @@ jobs:
     runs-on: ubuntu-latest
     name: Run Actions Template
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Serve Files
+        uses: Eun/http-server-action@v1
         with:
-          ref: releases
-
-      - name: Generate Directory Listings
-        uses: porryman/okru@main
-        with:
-          FOLDER: data
-
+          directory: ${{ github.workspace }}
+          port: 8080
+          no-cache: false
+          index-files: |
+            ["index.html", "index.htm"]
+          allowed-methods: |
+            ["GET", "HEAD"]
+          content-types: |
+            {
+              "appcache": "text/cache-manifest",
+              "css": "text/css",
+              "gif": "image/gif",
+              "html": "text/html",
+              "ico": "image/x-icon",
+              "jpeg": "image/jpeg",
+              "jpg": "image/jpeg",
+              "js": "text/javascript",
+              "json": "application/json",
+              "png": "image/png",
+              "txt": "text/plain",
+              "xml": "text/xml"
+            }
+          log: "log.txt"
+          logTime: "false"
+      - run: |
+          curl -vvvv http://localhost:8080
+          cat log.txt
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload generator folder
-          path: 'data'
-
+          path: 'data'          
   deploy:
     needs: pages-directory-listing
     permissions:
@@ -40,4 +59,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v1   
