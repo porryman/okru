@@ -41,6 +41,11 @@ jobs:
         run: |
           curl -vvvv http://localhost:8080
           cat log.txt
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload generator folder
+          path: 'data'          
   deploy:
     needs: pages-directory-listing
     permissions:
